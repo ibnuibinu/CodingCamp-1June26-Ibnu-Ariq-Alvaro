@@ -1,0 +1,621 @@
+/* css/styles.css — Todo List Life Dashboard
+   Requirements: 10.2, 5.2 */
+
+/* ============================================================
+   CSS Custom Properties — Light theme (default)
+   ============================================================ */
+:root,
+[data-theme="light"] {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-border: #e0e0e0;
+  --color-text: #1a1a1a;
+  --color-text-muted: #666666;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-error: #dc2626;
+  --color-completed: #9ca3af;
+  --color-topbar-bg: #ffffff;
+  --color-topbar-border: #e0e0e0;
+  --color-input-bg: #ffffff;
+  --color-select-bg: #ffffff;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --transition: 150ms ease;
+}
+
+/* ============================================================
+   Dark theme
+   ============================================================ */
+[data-theme="dark"] {
+  --color-bg: #111827;
+  --color-surface: #1f2937;
+  --color-border: #374151;
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-error: #f87171;
+  --color-completed: #6b7280;
+  --color-topbar-bg: #1f2937;
+  --color-topbar-border: #374151;
+  --color-input-bg: #374151;
+  --color-select-bg: #374151;
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ============================================================
+   Top bar
+   ============================================================ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-topbar-bg);
+  border-bottom: 1px solid var(--color-topbar-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.topbar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--color-border);
+}
+
+.theme-toggle-btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.theme-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ============================================================
+   Dashboard grid layout
+   ============================================================ */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ============================================================
+   Widget card base
+   ============================================================ */
+.widget {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.widget-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   Greeting Widget
+   ============================================================ */
+#greeting-widget {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.greeting-message {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.greeting-time {
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+  display: block;
+  font-variant-numeric: tabular-nums;
+}
+
+.greeting-date {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   Focus Timer Widget
+   ============================================================ */
+#focus-timer {
+  align-items: center;
+  text-align: center;
+}
+
+.timer-display {
+  font-size: 3.5rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  margin: 0.5rem 0;
+  min-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.timer-controls button {
+  padding: 0.5rem 1.25rem;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.timer-controls button:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.timer-controls button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Duration control */
+.timer-duration-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+.duration-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.duration-input {
+  width: 4.5rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  text-align: center;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition);
+}
+
+.duration-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ============================================================
+   Shared button styles
+   ============================================================ */
+.btn-secondary {
+  padding: 0.35rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-border);
+}
+
+.btn-secondary:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Task Manager Widget
+   ============================================================ */
+#task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+#task-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition);
+}
+
+#task-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+#task-form button[type='submit'] {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  white-space: nowrap;
+}
+
+#task-form button[type='submit']:hover {
+  background-color: var(--color-primary-hover);
+}
+
+#task-form button[type='submit']:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Sort controls */
+.task-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sort-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.sort-select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  background-color: var(--color-select-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Task list */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: background-color var(--transition);
+}
+
+.task-item:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.task-checkbox {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.task-checkbox:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.task-text {
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  word-break: break-word;
+  color: var(--color-text);
+}
+
+/* Strikethrough for completed tasks (Requirement 5.2) */
+.task-text.completed {
+  text-decoration: line-through;
+  color: var(--color-completed);
+}
+
+.task-edit-input {
+  flex: 1 1 auto;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.task-edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.task-edit-btn,
+.task-save-btn,
+.task-delete-btn {
+  flex-shrink: 0;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.task-edit-btn:hover,
+.task-save-btn:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.task-delete-btn:hover {
+  background-color: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
+}
+
+.task-edit-btn:focus-visible,
+.task-save-btn:focus-visible,
+.task-delete-btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Quick Links Widget
+   ============================================================ */
+#link-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+#link-form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background-color: var(--color-input-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition);
+}
+
+#link-form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+#link-form button[type='submit'] {
+  grid-column: 1 / -1;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+#link-form button[type='submit']:hover {
+  background-color: var(--color-primary-hover);
+}
+
+#link-form button[type='submit']:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.link-btn {
+  display: inline-block;
+  padding: 0.4rem 0.875rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.link-btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.link-delete-btn {
+  flex-shrink: 0;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.link-delete-btn:hover {
+  background-color: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger);
+}
+
+.link-delete-btn:focus-visible {
+  outline: 3px solid var(--color-danger);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Error messages (inline + banner)
+   ============================================================ */
+.error-message {
+  font-size: 0.825rem;
+  color: var(--color-error);
+  min-height: 1.2em;
+  width: 100%;
+}
+
+/* ============================================================
+   Responsive adjustments
+   ============================================================ */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 1rem 0.75rem;
+  }
+
+  .greeting-time {
+    font-size: 2.25rem;
+  }
+
+  .timer-display {
+    font-size: 2.5rem;
+  }
+
+  #link-form {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding: 0.6rem 1rem;
+  }
+}

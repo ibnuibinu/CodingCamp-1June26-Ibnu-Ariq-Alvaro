@@ -1,0 +1,14 @@
+{
+  "name": "todo-list-life-dashboard",
+  "version": "1.0.0",
+  "description": "A client-side personal productivity dashboard",
+  "type": "module",
+  "scripts": {
+    "test": "vitest --run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "fast-check": "^3.22.0",
+    "vitest": "^2.1.8"
+  }
+}

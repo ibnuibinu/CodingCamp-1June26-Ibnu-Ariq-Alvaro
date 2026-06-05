@@ -1,0 +1,11 @@
+# Dependencies — never commit these
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/settings.json
+*.swp
+*.swo
